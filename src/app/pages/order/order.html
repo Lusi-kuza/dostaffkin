@@ -16,9 +16,16 @@
             formControlName="from"
             placeholder="Откуда: начните вводить адрес"
             autocomplete="off"
+            [attr.disabled]="!!orderId()"
           />
           <div class="main-ac" id="fromAc" role="listbox" aria-label="Подсказки адресов"></div>
         </div>
+        @if (
+          this.routeForm.get('from')?.invalid &&
+          (this.routeForm.get('from')?.dirty || this.routeForm.get('from')?.touched)
+        ) {
+          <label for="from" class="input-error">Заполните поле Откуда</label>
+        }
         <div class="main-field" id="toField">
           <div class="main-pin"></div>
           <input
@@ -26,12 +33,19 @@
             formControlName="to"
             placeholder="Куда: начните вводить адрес"
             autocomplete="off"
+            [attr.disabled]="!!orderId()"
           />
           <div class="main-ac" id="toAc" role="listbox" aria-label="Подсказки адресов"></div>
         </div>
+        @if (
+          this.routeForm.get('to')?.invalid &&
+          (this.routeForm.get('to')?.dirty || this.routeForm.get('to')?.touched)
+        ) {
+          <label for="from" class="input-error">Заполните поле Куда</label>
+        }
       </div>
     </div>
-    <div class="main-package">
+    <div class="main-package" [style.display]="orderId() ? 'none' : null">
       <div class="main-block-title">Размер посылки</div>
       <div class="main-sizes">
         @for (size of sizes; track size.value) {
@@ -55,7 +69,7 @@
         }
       </div>
     </div>
-    <div class="main-speed">
+    <div class="main-speed" [style.display]="orderId() ? 'none' : null">
       <div class="main-block-title">Скорость доставки</div>
 
       <div class="main-speeds">
@@ -78,6 +92,7 @@
         type="button"
         [disabled]="routeForm.invalid"
         (click)="calculate()"
+        [style.display]="orderId() ? 'none' : null"
       >
         Рассчитать
       </button>
@@ -138,6 +153,22 @@
                 autocomplete="off"
                 inputmode="tel"
               />
+            </div>
+            <div>
+              @if (
+                this.orderForm.get('name')?.invalid &&
+                (this.orderForm.get('name')?.dirty || this.orderForm.get('name')?.touched)
+              ) {
+                <label for="customerName" class="input-error">Заполните имя</label>
+              }
+            </div>
+            <div>
+              @if (
+                this.orderForm.get('phone')?.invalid &&
+                (this.orderForm.get('phone')?.dirty || this.orderForm.get('phone')?.touched)
+              ) {
+                <label for="customerName" class="input-error">Заполните телефон</label>
+              }
             </div>
           </div>
         </div>
